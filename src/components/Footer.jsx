@@ -10,7 +10,7 @@ const Footer = () => {
     {
       name: "GitHub",
       icon: FaGithub,
-      url: "https://github.com/flavain", // TODO: Update with real GitHub URL
+      url: "https://github.com/flavian2", // TODO: Update with real GitHub URL
       color: "#ffffff"
     },
     {
