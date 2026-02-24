@@ -1,43 +1,44 @@
-import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
-import { SiUpwork } from 'react-icons/si';
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
+import { SiUpwork } from "react-icons/si";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   const socialLinks = [
     {
-      name: 'GitHub',
+      name: "GitHub",
       icon: FaGithub,
-      url: 'https://github.com/godlycode', // TODO: Update with real GitHub URL
-      color: '#ffffff'
+      url: "https://github.com/flavain", // TODO: Update with real GitHub URL
+      color: "#ffffff"
     },
     {
-      name: 'LinkedIn',
+      name: "LinkedIn",
       icon: FaLinkedin,
-      url: 'https://linkedin.com/in/godlycode', // TODO: Update with real LinkedIn URL
-      color: '#0077B5'
+      url: "https://linkedin.com/in/flavian-onyenso-996b72133", // TODO: Update with real LinkedIn URL
+      color: "#0077B5"
     },
     {
-      name: 'Upwork',
+      name: "Upwork",
       icon: SiUpwork,
-      url: 'https://upwork.com/freelancers/godlycode', // TODO: Update with real Upwork URL
-      color: '#6FDA44'
+      url:
+        "https://www.upwork.com/freelancers/~01aac3dc9efcd4232f?mp_source=share", // TODO: Update with real Upwork URL
+      color: "#6FDA44"
     },
     {
-      name: 'Email',
+      name: "Email",
       icon: FaEnvelope,
-      url: 'mailto:contact@godlycode.com', // TODO: Update with real email
-      color: '#D4AF37'
+      url: "mailto:contact@godlycode.com", // TODO: Update with real email
+      color: "#D4AF37"
     }
   ];
 
   const quickLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'Projects', path: '/projects' },
-    { name: 'About', path: '/about' },
-    { name: 'Contact', path: '/contact' }
+    { name: "Home", path: "/" },
+    { name: "Projects", path: "/projects" },
+    { name: "About", path: "/about" },
+    { name: "Contact", path: "/contact" }
   ];
 
   return (
@@ -50,7 +51,8 @@ const Footer = () => {
               GODLYCODE
             </h2>
             <p className="text-gray-400 text-sm leading-relaxed">
-              Full-Stack Developer crafting production-grade fintech, logistics, and AI-powered applications from Nigeria for the world.
+              Full-Stack Developer crafting production-grade fintech, logistics,
+              and AI-powered applications from Nigeria for the world.
             </p>
             <div className="flex items-center space-x-2 text-sm text-gray-400">
               <span>🇳🇬</span>
@@ -64,7 +66,7 @@ const Footer = () => {
               Quick Links
             </h3>
             <ul className="space-y-2">
-              {quickLinks.map((link) => (
+              {quickLinks.map(link =>
                 <li key={link.path}>
                   <Link to={link.path}>
                     <motion.span
@@ -75,7 +77,7 @@ const Footer = () => {
                     </motion.span>
                   </Link>
                 </li>
-              ))}
+              )}
             </ul>
           </div>
 
@@ -85,7 +87,7 @@ const Footer = () => {
               Connect
             </h3>
             <div className="flex space-x-4">
-              {socialLinks.map((social) => (
+              {socialLinks.map(social =>
                 <motion.a
                   key={social.name}
                   href={social.url}
@@ -96,11 +98,9 @@ const Footer = () => {
                   className="w-10 h-10 rounded-full glass flex items-center justify-center interactive group"
                   title={social.name}
                 >
-                  <social.icon
-                    className="text-xl text-gray-400 group-hover:text-celestial-gold transition-colors"
-                  />
+                  <social.icon className="text-xl text-gray-400 group-hover:text-celestial-gold transition-colors" />
                 </motion.a>
-              ))}
+              )}
             </div>
             <p className="text-gray-400 text-sm mt-4">
               Available for freelance projects and long-term contracts
@@ -118,7 +118,7 @@ const Footer = () => {
               <span>Built with</span>
               <motion.span
                 animate={{
-                  scale: [1, 1.2, 1],
+                  scale: [1, 1.2, 1]
                 }}
                 transition={{
                   duration: 1,
