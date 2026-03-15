@@ -1,77 +1,95 @@
 import { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import LogoPrimary from '../assets/img/godlycode-logo.png';
 
 const LoadingScreen = () => {
-  const [isLoading, setIsLoading] = useState(true);
+  const [visible, setVisible] = useState(true);
+  const [fading, setFading]   = useState(false);
 
   useEffect(() => {
-    // Simulate loading time
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 2500);
-
-    return () => clearTimeout(timer);
+    const fadeTimer = setTimeout(() => setFading(true), 2200);
+    const hideTimer = setTimeout(() => setVisible(false), 2800);
+    return () => {
+      clearTimeout(fadeTimer);
+      clearTimeout(hideTimer);
+    };
   }, []);
 
+  if (!visible) return null;
+
   return (
-    <AnimatePresence>
-      {isLoading && (
-        <motion.div
-          initial={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.5 }}
-          className="fixed inset-0 z-[10001] bg-dark-bg flex items-center justify-center"
-        >
-          <div className="text-center">
-            {/* Animated Logo */}
-            <motion.div
-              initial={{ scale: 0.5, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.5 }}
-              className="mb-8"
-            >
-              <h1 className="text-6xl md:text-8xl font-display font-bold gradient-text">
-                GODLYCODE
-              </h1>
-            </motion.div>
+    <div
+      style={{
+        position: 'fixed',
+        inset: 0,
+        zIndex: 99999,
+        background: '#000',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        transition: 'opacity 0.6s ease',
+        opacity: fading ? 0 : 1,
+        pointerEvents: fading ? 'none' : 'all',
+      }}
+    >
+      <style>{`
+        @keyframes logoPulse {
+          0%, 100% { filter: drop-shadow(0 0 8px rgba(201,168,76,0.4)); opacity: 0.9; }
+          50%       { filter: drop-shadow(0 0 24px rgba(201,168,76,0.9)); opacity: 1; }
+        }
+        @keyframes loadLine {
+          from { width: 0; }
+          to   { width: 100%; }
+        }
+        @keyframes loadPulse {
+          0%, 100% { opacity: 0.4; }
+          50%       { opacity: 0.8; }
+        }
+      `}</style>
 
-            {/* Loading Bar */}
-            <div className="w-64 h-1 bg-dark-tertiary rounded-full overflow-hidden mx-auto">
-              <motion.div
-                initial={{ width: '0%' }}
-                animate={{ width: '100%' }}
-                transition={{ duration: 2, ease: 'easeInOut' }}
-                className="h-full bg-gradient-to-r from-celestial-gold to-electric-blue"
-              />
-            </div>
+      {/* Logo — pulsing gold glow */}
+      <img
+        src={LogoPrimary}
+        alt="GodlyCode"
+        style={{
+          height: '80px',
+          width: 'auto',
+          objectFit: 'contain',
+          marginBottom: '40px',
+          animation: 'logoPulse 2s ease-in-out infinite',
+        }}
+      />
 
-            {/* Animated Dots */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-              className="mt-8 flex justify-center space-x-2"
-            >
-              {[0, 1, 2].map((i) => (
-                <motion.div
-                  key={i}
-                  animate={{
-                    scale: [1, 1.5, 1],
-                    opacity: [0.5, 1, 0.5]
-                  }}
-                  transition={{
-                    duration: 1.5,
-                    repeat: Infinity,
-                    delay: i * 0.2
-                  }}
-                  className="w-2 h-2 bg-celestial-gold rounded-full"
-                />
-              ))}
-            </motion.div>
-          </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+      {/* Progress bar */}
+      <div style={{
+        width: '200px',
+        height: '1px',
+        background: 'rgba(201,168,76,0.1)',
+        position: 'relative',
+        overflow: 'hidden',
+        marginBottom: '24px',
+      }}>
+        <div style={{
+          position: 'absolute',
+          top: 0, left: 0,
+          height: '100%',
+          background: 'var(--gold, #C9A84C)',
+          animation: 'loadLine 2.2s ease forwards',
+        }} />
+      </div>
+
+      {/* Summoning text */}
+      <div style={{
+        fontFamily: '"Cinzel", serif',
+        fontSize: '12px',
+        letterSpacing: '6px',
+        textTransform: 'uppercase',
+        color: 'rgba(201,168,76,0.5)',
+        animation: 'loadPulse 2s ease-in-out infinite 0.5s',
+      }}>
+        Summoning the gods...
+      </div>
+    </div>
   );
 };
 

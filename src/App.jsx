@@ -1,60 +1,71 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import { AnimatePresence } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import ParticleBackground from './components/ParticleBackground';
+import DivineParticles from './components/DivineParticles';
 import CustomCursor from './components/CustomCursor';
 import LoadingScreen from './components/LoadingScreen';
-import AIChatbot from './components/AIChatbot';
+import IkukuWelcome from './components/divine/IkukuWelcome';
 import Home from './pages/Home';
 import Projects from './pages/Projects';
 import ProjectDetail from './pages/ProjectDetail';
 import About from './pages/About';
 import Contact from './pages/Contact';
+import ChatPage from './pages/ChatPage';
+import StartProjectPage from './pages/StartProjectPage';
+import AdminPage from './pages/AdminPage';
 
-function AnimatedRoutes() {
+const FULLSCREEN_ROUTES = ['/chat/', '/admin'];
+const NO_FOOTER_ROUTES  = ['/chat/'];
+
+function AppShell() {
   const location = useLocation();
+  const isFullscreen = FULLSCREEN_ROUTES.some(r => location.pathname.startsWith(r));
+  const isAdmin      = location.pathname.startsWith('/admin');
+  const showIkuku    = !isFullscreen && !isAdmin;
+  const showFooter   = !NO_FOOTER_ROUTES.some(r => location.pathname.startsWith(r));
 
   return (
-    <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<Home />} />
-        <Route path="/projects" element={<Projects />} />
-        <Route path="/projects/:id" element={<ProjectDetail />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
-      </Routes>
-    </AnimatePresence>
+    <div style={{ background: 'var(--deep)', minHeight: '100vh', position: 'relative' }}>
+      {/* Loading Screen */}
+      <LoadingScreen />
+
+      {/* Wind Particles — fixed bg, always running */}
+      <DivineParticles count={window.innerWidth < 768 ? 20 : 40} />
+
+      {/* Custom Cursor — desktop only */}
+      <CustomCursor />
+
+      {/* Navigation */}
+      {!isAdmin && <Navbar />}
+
+      {/* Main Content */}
+      <main style={{ position: 'relative', zIndex: 10 }}>
+        <Routes>
+          <Route path="/"                element={<Home />} />
+          <Route path="/projects"        element={<Projects />} />
+          <Route path="/projects/:id"    element={<ProjectDetail />} />
+          <Route path="/about"           element={<About />} />
+          <Route path="/contact"         element={<Contact />} />
+          <Route path="/chat/:god"       element={<ChatPage />} />
+          <Route path="/start-project"   element={<StartProjectPage />} />
+          <Route path="/start"           element={<StartProjectPage />} />
+          <Route path="/admin"           element={<AdminPage />} />
+        </Routes>
+      </main>
+
+      {/* Footer */}
+      {showFooter && <Footer />}
+
+      {/* Ikuku Floating Chat Bubble */}
+      {showIkuku && <IkukuWelcome />}
+    </div>
   );
 }
 
 function App() {
   return (
     <Router>
-      <div className="relative min-h-screen bg-dark-bg text-white">
-        {/* Loading Screen */}
-        <LoadingScreen />
-
-        {/* Particle Background */}
-        <ParticleBackground />
-
-        {/* Custom Cursor (Desktop only) */}
-        <div className="hidden lg:block">
-          <CustomCursor />
-        </div>
-
-        {/* Main Layout */}
-        <div className="relative z-10">
-          <Navbar />
-          <main className="min-h-screen">
-            <AnimatedRoutes />
-          </main>
-          <Footer />
-        </div>
-
-        {/* AI Chatbot - Available on all pages */}
-        <AIChatbot />
-      </div>
+      <AppShell />
     </Router>
   );
 }

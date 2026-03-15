@@ -7,33 +7,41 @@ export default {
   theme: {
     extend: {
       colors: {
-        'dark-bg': '#0a0a0a',
+        // ── Divine Color Palette ──────────────────────────
+        'gold':       '#C9A84C',
+        'gold-light': '#F0C96B',
+        'gold-dim':   '#8B6914',
+        'deep':       '#070707',
+        'dark':       '#0D0A06',
+        'surface':    '#110E08',
+        'surface2':   '#1A1510',
+        'cream':      '#E8DCC8',
+        'cream-dim':  '#8A7A60',
+        // ── Legacy (kept for backward compat) ────────────
+        'dark-bg':        '#0a0a0a',
         'celestial-gold': '#D4AF37',
-        'electric-blue': '#00B4D8',
+        'electric-blue':  '#00B4D8',
         'dark-secondary': '#1a1a1a',
-        'dark-tertiary': '#2a2a2a',
+        'dark-tertiary':  '#2a2a2a',
       },
       fontFamily: {
-        'display': ['Clash Display', 'sans-serif'],
-        'body': ['General Sans', 'sans-serif'],
+        'display': ['"Cinzel Decorative"', 'serif'],
+        'serif':   ['"Cinzel"', 'serif'],
+        'body':    ['"Inter"', 'sans-serif'],
+        // Legacy
+        'display-legacy': ['Clash Display', 'sans-serif'],
       },
-      backgroundImage: {
-        'grain': "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E\")",
+      fontSize: {
+        'hero': ['clamp(48px,8vw,100px)', { lineHeight: '1', fontWeight: '900' }],
+        'section-title': ['clamp(32px,4vw,56px)', { lineHeight: '1.1' }],
+      },
+      spacing: {
+        'section': 'clamp(80px,10vw,140px)',
       },
       animation: {
-        'float': 'float 6s ease-in-out infinite',
-        'glow': 'glow 2s ease-in-out infinite alternate',
+        'float':     'float 6s ease-in-out infinite',
         'spin-slow': 'spin 20s linear infinite',
-      },
-      keyframes: {
-        float: {
-          '0%, 100%': { transform: 'translateY(0px)' },
-          '50%': { transform: 'translateY(-20px)' },
-        },
-        glow: {
-          '0%': { boxShadow: '0 0 5px rgba(212, 175, 55, 0.5), 0 0 10px rgba(212, 175, 55, 0.3)' },
-          '100%': { boxShadow: '0 0 20px rgba(212, 175, 55, 0.8), 0 0 30px rgba(212, 175, 55, 0.5)' },
-        },
+        'pulse-gold':'goldPulse 2.5s ease-in-out infinite',
       },
     },
   },

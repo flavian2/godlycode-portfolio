@@ -1,65 +1,100 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
+// God aura colors
+const GOD_AURA = {
+  ikuku: 'rgba(220,220,255,0.9)',   // silver-white
+  oshun: 'rgba(255,159,67,0.9)',    // warm amber gold
+  ogun:  'rgba(180,100,40,0.9)',    // forge orange
+  eshu:  'rgba(0,196,232,0.9)',     // electric blue
+};
+const DEFAULT_COLOR = 'var(--gold, #C9A84C)';
+
+// Gold lerp cursor — dot follows exactly, ring follows with delay
 const CustomCursor = () => {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [isHovering, setIsHovering] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
+  const dotRef  = useRef(null);
+  const ringRef = useRef(null);
 
   useEffect(() => {
-    const updateCursor = (e) => {
-      setPosition({ x: e.clientX, y: e.clientY });
-      if (!isVisible) setIsVisible(true);
+    if (typeof window === 'undefined') return;
+    if (window.matchMedia('(max-width: 768px)').matches) return;
+
+    const dot  = dotRef.current;
+    const ring = ringRef.current;
+    if (!dot || !ring) return;
+
+    let mouseX = window.innerWidth  / 2;
+    let mouseY = window.innerHeight / 2;
+    let ringX  = mouseX;
+    let ringY  = mouseY;
+    let animId;
+
+    const lerp = (a, b, t) => a + (b - a) * t;
+
+    const getGodZone = (el) => {
+      const zone = el?.closest('[data-god]');
+      return zone ? zone.getAttribute('data-god') : null;
     };
 
-    const handleMouseEnter = () => setIsHovering(true);
-    const handleMouseLeave = () => setIsHovering(false);
+    const setAuraColor = (color) => {
+      dot.style.background  = color;
+      ring.style.borderColor = color;
+    };
 
-    // Add cursor position tracking
-    window.addEventListener('mousemove', updateCursor);
+    const onMouseMove = (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      dot.style.left = `${mouseX}px`;
+      dot.style.top  = `${mouseY}px`;
 
-    // Add hover detection for interactive elements
-    const interactiveElements = document.querySelectorAll(
-      'a, button, .interactive, [role="button"]'
-    );
+      // Update aura color based on god zone
+      const godKey = getGodZone(e.target);
+      if (godKey && GOD_AURA[godKey]) {
+        setAuraColor(GOD_AURA[godKey]);
+      } else {
+        setAuraColor(DEFAULT_COLOR);
+      }
+    };
 
-    interactiveElements.forEach((el) => {
-      el.addEventListener('mouseenter', handleMouseEnter);
-      el.addEventListener('mouseleave', handleMouseLeave);
-    });
+    const animate = () => {
+      ringX = lerp(ringX, mouseX, 0.1);
+      ringY = lerp(ringY, mouseY, 0.1);
+      ring.style.left = `${ringX}px`;
+      ring.style.top  = `${ringY}px`;
+      animId = requestAnimationFrame(animate);
+    };
+
+    const SELECTORS = 'a, button, [role="button"], input, textarea, select, label, .project-row, .tech-tag, .divine-btn-gold, .divine-btn-ghost';
+
+    const onMouseOver = (e) => {
+      if (e.target.closest(SELECTORS)) {
+        dot.classList.add('cursor-hover');
+        ring.classList.add('cursor-hover');
+      }
+    };
+    const onMouseOut = (e) => {
+      if (e.target.closest(SELECTORS)) {
+        dot.classList.remove('cursor-hover');
+        ring.classList.remove('cursor-hover');
+      }
+    };
+
+    document.addEventListener('mousemove', onMouseMove, { passive: true });
+    document.addEventListener('mouseover', onMouseOver, { passive: true });
+    document.addEventListener('mouseout',  onMouseOut,  { passive: true });
+    animId = requestAnimationFrame(animate);
 
     return () => {
-      window.removeEventListener('mousemove', updateCursor);
-      interactiveElements.forEach((el) => {
-        el.removeEventListener('mouseenter', handleMouseEnter);
-        el.removeEventListener('mouseleave', handleMouseLeave);
-      });
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseover', onMouseOver);
+      document.removeEventListener('mouseout',  onMouseOut);
+      cancelAnimationFrame(animId);
     };
-  }, [isVisible]);
-
-  if (!isVisible) return null;
+  }, []);
 
   return (
     <>
-      {/* Main cursor dot */}
-      <div
-        className="fixed w-2 h-2 bg-celestial-gold rounded-full pointer-events-none z-[10000] mix-blend-difference transition-transform duration-100"
-        style={{
-          left: `${position.x}px`,
-          top: `${position.y}px`,
-          transform: `translate(-50%, -50%) scale(${isHovering ? 1.5 : 1})`,
-        }}
-      />
-
-      {/* Cursor ring */}
-      <div
-        className="fixed w-8 h-8 border-2 border-celestial-gold rounded-full pointer-events-none z-[10000] mix-blend-difference transition-all duration-200"
-        style={{
-          left: `${position.x}px`,
-          top: `${position.y}px`,
-          transform: `translate(-50%, -50%) scale(${isHovering ? 1.5 : 1})`,
-          opacity: isHovering ? 1 : 0.6,
-        }}
-      />
+      <div ref={dotRef}  className="cursor-dot"  aria-hidden="true" />
+      <div ref={ringRef} className="cursor-ring" aria-hidden="true" />
     </>
   );
 };

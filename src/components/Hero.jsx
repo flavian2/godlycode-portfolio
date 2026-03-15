@@ -1,189 +1,219 @@
-import { motion } from 'framer-motion';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { HiArrowDown } from 'react-icons/hi';
+import IkukuVideo  from '../assets/img/Ikuku-video.mp4';
+import IkukuPoster from '../assets/img/ikuku-godlycode.jpg';
+
+const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
 
 const Hero = () => {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.8, ease: [0.25, 0.4, 0.25, 1] }
-    }
-  };
+  const [muted, setMuted] = useState(true);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
-      {/* Floating Geometric Shapes */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Large Circle */}
-        <motion.div
-          animate={{
-            y: [0, 30, 0],
-            rotate: [0, 180, 360],
-            scale: [1, 1.1, 1]
-          }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            ease: 'easeInOut'
-          }}
-          className="absolute top-1/4 right-1/4 w-64 h-64 md:w-96 md:h-96 border-2 border-celestial-gold opacity-10 rounded-full"
-        />
-
-        {/* Hexagon */}
-        <motion.div
-          animate={{
-            y: [0, -40, 0],
-            rotate: [0, -120, -240, -360]
-          }}
-          transition={{
-            duration: 25,
-            repeat: Infinity,
-            ease: 'easeInOut'
-          }}
-          className="absolute bottom-1/4 left-1/4 w-48 h-48 md:w-72 md:h-72 border-2 border-electric-blue opacity-10"
+    <section
+      style={{
+        position: 'relative',
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        overflow: 'hidden',
+      }}
+    >
+      {/* ── VIDEO BACKGROUND ── */}
+      {!isMobile ? (
+        <video
+          src={IkukuVideo}
+          poster={IkukuPoster}
+          preload="auto"
+          autoPlay
+          muted={muted}
+          loop
+          playsInline
           style={{
-            clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)'
+            position: 'absolute', inset: 0,
+            width: '100%', height: '100%',
+            objectFit: 'cover',
+            zIndex: 0,
           }}
         />
+      ) : (
+        /* Mobile: static poster instead of video */
+        <div style={{
+          position: 'absolute', inset: 0,
+          backgroundImage: `url(${IkukuPoster})`,
+          backgroundSize: 'cover', backgroundPosition: 'center',
+          zIndex: 0,
+        }} />
+      )}
 
-        {/* Small Square */}
-        <motion.div
-          animate={{
-            x: [0, 50, 0],
-            y: [0, -30, 0],
-            rotate: [0, 90, 180, 270, 360]
-          }}
-          transition={{
-            duration: 15,
-            repeat: Infinity,
-            ease: 'linear'
-          }}
-          className="absolute top-1/2 left-1/2 w-24 h-24 border-2 border-celestial-gold opacity-20"
-        />
+      {/* Layer 1: base dark overlay */}
+      <div style={{
+        position: 'absolute', inset: 0, zIndex: 1,
+        background: 'rgba(7,7,7,0.65)',
+      }} />
+
+      {/* Layer 2: gradient — top soft, bottom to black */}
+      <div style={{
+        position: 'absolute', inset: 0, zIndex: 2,
+        background: 'linear-gradient(to bottom, rgba(7,7,7,0.3) 0%, rgba(7,7,7,0) 40%, rgba(7,7,7,0) 60%, rgba(7,7,7,1) 100%)',
+        pointerEvents: 'none',
+      }} />
+
+      {/* Layer 3: African geometric grid */}
+      <div className="african-grid" style={{
+        position: 'absolute', inset: 0, zIndex: 3,
+        opacity: 0.04, pointerEvents: 'none',
+      }} />
+
+      {/* Vignette edge */}
+      <div style={{
+        position: 'absolute', inset: 0, zIndex: 4,
+        boxShadow: 'inset 0 0 150px rgba(7,7,7,0.8)',
+        pointerEvents: 'none',
+      }} />
+
+      {/* ── MAIN CONTENT ── */}
+      <div style={{
+        position: 'relative', zIndex: 10,
+        textAlign: 'center',
+        padding: '0 24px',
+        maxWidth: '900px',
+        width: '100%',
+      }}>
+        {/* Eyebrow */}
+        <p className="fade-up" style={{
+          fontFamily: 'var(--font-body)', fontSize: '11px',
+          fontWeight: 500, letterSpacing: '6px', textTransform: 'uppercase',
+          color: 'var(--gold)', marginBottom: '40px', animationDelay: '0.1s',
+        }}>
+          ✦ Divine African Tech Agency ✦
+        </p>
+
+        {/* GODLY — outlined */}
+        <h1 className="fade-up" style={{
+          fontFamily: 'var(--font-display)',
+          fontSize: 'clamp(48px, 8vw, 100px)',
+          fontWeight: 900, lineHeight: 1, margin: 0,
+          WebkitTextStroke: '1px var(--gold-dim)',
+          color: 'transparent', letterSpacing: '4px',
+          animationDelay: '0.5s',
+        }}>
+          GODLY
+        </h1>
+
+        {/* CODE — solid gold */}
+        <h1 className="fade-up" style={{
+          fontFamily: 'var(--font-display)',
+          fontSize: 'clamp(48px, 8vw, 100px)',
+          fontWeight: 900, lineHeight: 1, margin: '0 0 48px',
+          color: 'var(--gold)', letterSpacing: '4px',
+          animationDelay: '0.7s',
+        }}>
+          CODE
+        </h1>
+
+        {/* Divider */}
+        <div className="fade-up" style={{
+          width: '60px', height: '1px',
+          background: 'var(--gold-dim)', margin: '0 auto 32px',
+          animationDelay: '0.9s',
+        }} />
+
+        {/* Tagline */}
+        <p className="fade-up" style={{
+          fontFamily: 'var(--font-body)',
+          fontSize: 'clamp(14px, 2vw, 18px)',
+          fontWeight: 300, color: 'var(--text-dim)',
+          letterSpacing: '2px', maxWidth: '560px',
+          margin: '0 auto 56px', lineHeight: 1.8,
+          animationDelay: '1.1s',
+        }}>
+          We do not build websites.<br />
+          We forge digital empires — with the precision of gods.
+        </p>
+
+        {/* CTAs */}
+        <div className="fade-up" style={{
+          display: 'flex', gap: '20px',
+          justifyContent: 'center', flexWrap: 'wrap',
+          animationDelay: '1.3s',
+        }}>
+          <Link to="/start-project" className="divine-btn-gold">
+            Begin Your Project
+          </Link>
+          <Link to="/projects" className="divine-btn-ghost">
+            View Our Work
+          </Link>
+        </div>
       </div>
 
-      {/* Main Content */}
-      <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          {/* Badge */}
-          <motion.div variants={itemVariants} className="mb-6">
-            <span className="inline-flex items-center space-x-2 px-4 py-2 glass rounded-full text-sm">
-              <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-              <span className="text-gray-300">Available for Projects</span>
-            </span>
-          </motion.div>
-
-          {/* Main Heading */}
-          <motion.h1
-            variants={itemVariants}
-            className="text-5xl md:text-7xl lg:text-8xl font-display font-bold mb-6 leading-tight"
+      {/* ── BOTTOM CONTROLS ── */}
+      <div style={{
+        position: 'absolute', bottom: '40px',
+        left: 0, right: 0,
+        display: 'flex', alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: 10,
+        gap: '40px',
+      }}>
+        {/* Mute toggle — desktop only */}
+        {!isMobile && (
+          <button
+            onClick={() => setMuted(m => !m)}
+            className="fade-up"
+            style={{
+              position: 'absolute', left: '40px',
+              background: 'rgba(7,7,7,0.5)',
+              border: '1px solid rgba(201,168,76,0.2)',
+              borderRadius: '20px',
+              padding: '6px 14px',
+              fontFamily: 'var(--font-body)', fontSize: '11px',
+              letterSpacing: '2px', color: 'var(--text-dim)',
+              cursor: 'none', transition: 'color 0.2s, border-color 0.2s',
+              animationDelay: '2s',
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.color = 'var(--gold)';
+              e.currentTarget.style.borderColor = 'rgba(201,168,76,0.4)';
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.color = 'var(--text-dim)';
+              e.currentTarget.style.borderColor = 'rgba(201,168,76,0.2)';
+            }}
           >
-            I Build{' '}
-            <span className="gradient-text">Digital Experiences</span>
-            <br />
-            That Move Industries
-          </motion.h1>
+            {muted ? '🔇 Muted' : '🔊 Sound On'}
+          </button>
+        )}
 
-          {/* Subtitle */}
-          <motion.p
-            variants={itemVariants}
-            className="text-xl md:text-2xl text-gray-400 mb-4 max-w-3xl mx-auto"
-          >
-            Full-Stack Developer | Fintech • Logistics • AI • SaaS
-          </motion.p>
-
-          {/* Location Badge */}
-          <motion.div variants={itemVariants} className="mb-8">
-            <span className="inline-flex items-center space-x-2 text-celestial-gold">
-              <span className="text-2xl">🇳🇬</span>
-              <span className="text-sm md:text-base">Based in Nigeria, Building for the World</span>
-            </span>
-          </motion.div>
-
-          {/* CTA Buttons */}
-          <motion.div
-            variants={itemVariants}
-            className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6 mb-12"
-          >
-            <Link to="/projects">
-              <motion.button
-                whileHover={{ scale: 1.05, boxShadow: '0 0 30px rgba(212, 175, 55, 0.5)' }}
-                whileTap={{ scale: 0.95 }}
-                className="px-8 py-4 bg-celestial-gold text-dark-bg font-bold rounded-full hover:shadow-lg transition-all duration-300 interactive w-full sm:w-auto"
-              >
-                View My Work
-              </motion.button>
-            </Link>
-
-            <Link to="/contact">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-8 py-4 glass border-2 border-celestial-gold text-white font-bold rounded-full hover:bg-celestial-gold hover:text-dark-bg transition-all duration-300 interactive w-full sm:w-auto"
-              >
-                Let's Talk
-              </motion.button>
-            </Link>
-          </motion.div>
-
-          {/* Stats */}
-          <motion.div
-            variants={itemVariants}
-            className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto mb-12"
-          >
-            {[
-              { number: '4+', label: 'Production Systems' },
-              { number: '3+', label: 'Years Experience' },
-              { number: '100%', label: 'Client Satisfaction' }
-            ].map((stat, index) => (
-              <motion.div
-                key={index}
-                whileHover={{ y: -5 }}
-                className="glass p-6 rounded-lg"
-              >
-                <div className="text-3xl md:text-4xl font-bold gradient-text mb-2">
-                  {stat.number}
-                </div>
-                <div className="text-sm text-gray-400">{stat.label}</div>
-              </motion.div>
-            ))}
-          </motion.div>
-
-          {/* Scroll Indicator */}
-          <motion.div
-            variants={itemVariants}
-            className="flex flex-col items-center"
-          >
-            <span className="text-sm text-gray-500 mb-2">Scroll to explore</span>
-            <motion.div
-              animate={{ y: [0, 10, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-            >
-              <HiArrowDown className="text-2xl text-celestial-gold" />
-            </motion.div>
-          </motion.div>
-        </motion.div>
+        {/* Scroll indicator */}
+        <div className="fade-up" style={{
+          display: 'flex', flexDirection: 'column',
+          alignItems: 'center', gap: '8px',
+          animationDelay: '1.8s',
+        }}>
+          <span style={{
+            fontFamily: 'var(--font-body)', fontSize: '9px',
+            letterSpacing: '4px', textTransform: 'uppercase',
+            color: 'var(--text-dim)',
+          }}>
+            Scroll
+          </span>
+          <div style={{
+            width: '1px', height: '48px',
+            background: 'linear-gradient(to bottom, var(--gold-dim), transparent)',
+            animation: 'scrollLine 2s ease-in-out infinite',
+          }} />
+        </div>
       </div>
 
-      {/* Gradient Overlays */}
-      <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-dark-bg to-transparent pointer-events-none" />
+      <style>{`
+        @keyframes scrollLine {
+          0%   { opacity: 0; transform: scaleY(0); transform-origin: top; }
+          50%  { opacity: 1; transform: scaleY(1); transform-origin: top; }
+          100% { opacity: 0; transform: scaleY(1); transform-origin: bottom; }
+        }
+      `}</style>
     </section>
   );
 };
