@@ -173,34 +173,36 @@ const ProjectDetail = () => {
           </div>
         </ScrollReveal>
 
-        {/* Screenshots Section (Placeholder) */}
-        <ScrollReveal delay={0.5}>
-          <div className="mb-16">
-            <h2 className="text-3xl font-bold mb-8">Screenshots</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {project.screenshots.map((screenshot, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  whileHover={{ scale: 1.05 }}
-                  className="glass p-4 rounded-lg aspect-video flex items-center justify-center text-gray-500"
-                >
-                  {/* TODO: Replace with actual screenshots */}
-                  <div className="text-center">
-                    <div className="text-4xl mb-2">📸</div>
-                    <p className="text-sm">{screenshot}</p>
-                  </div>
-                </motion.div>
-              ))}
+        {/* Screenshots Section */}
+        {project.screenshots && project.screenshots.length > 0 && (
+          <ScrollReveal delay={0.5}>
+            <div className="mb-16">
+              <h2 className="text-3xl font-bold mb-8">Screenshots</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {project.screenshots.map((screenshot, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1 }}
+                    whileHover={{ scale: 1.02 }}
+                    className="glass rounded-lg overflow-hidden"
+                  >
+                    <img
+                      src={screenshot.src || screenshot}
+                      alt={screenshot.caption || `Screenshot ${index + 1}`}
+                      className="w-full h-full object-cover"
+                    />
+                    {screenshot.caption && (
+                      <p className="text-sm text-gray-400 text-center py-2 px-4">{screenshot.caption}</p>
+                    )}
+                  </motion.div>
+                ))}
+              </div>
             </div>
-            <p className="text-sm text-gray-500 mt-4">
-              💡 Screenshots will be added soon. Visit the live demo to see the project in action.
-            </p>
-          </div>
-        </ScrollReveal>
+          </ScrollReveal>
+        )}
 
         {/* CTA */}
         <ScrollReveal delay={0.6}>
