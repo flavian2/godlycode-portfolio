@@ -1,4 +1,4 @@
-// Banking images
+// Banking assets
 import bankInterface from '../assets/banking/bankinterface.png';
 import dashboard1 from '../assets/banking/dashboard1.png';
 import dashboard2 from '../assets/banking/dashboard2.png';
@@ -6,8 +6,9 @@ import historyBnk from '../assets/banking/historybnk.png';
 import transaction from '../assets/banking/transaction.png';
 import adminLogin from '../assets/banking/admin-login.png';
 import adminDashboard from '../assets/banking/admin-dashboard.png';
+import bankingVideo from '../assets/banking/iportal.mp4';
 
-// Courier images
+// Courier assets
 import trackingSystem from '../assets/courier/tracking-system.png';
 import gpsSystem from '../assets/courier/gps-system.png';
 import gpsDetails from '../assets/courier/gps-details.png';
@@ -16,6 +17,15 @@ import mapGps from '../assets/courier/map-gps.png';
 import courierDashboard from '../assets/courier/courier_admin_dasboard.png';
 import courierDashboard2 from '../assets/courier/courier_admin_dasboard2.png';
 import courierInterface from '../assets/courier/courier-interface.png';
+import courierVideo from '../assets/courier/tracking-demo.mp4';
+
+// Trade assets
+import tradingCoin from '../assets/trade/trading-coin.png';
+import tradingDashboard from '../assets/trade/trading-dashboard.png';
+import tradingFinance from '../assets/trade/trading-finance.png';
+import tradingLogin from '../assets/trade/trading-login.png';
+import tradingTrade from '../assets/trade/trading-trade.png';
+import tradingVideo from '../assets/trade/trading-demo.mp4';
 
 // Central data file for all projects
 export const projects = [
@@ -48,6 +58,7 @@ export const projects = [
       database: ["MySQL"],
       apis: ["REST API"]
     },
+    heroVideo: bankingVideo,
     screenshots: [
       { src: bankInterface, caption: "Bank Interface" },
       { src: dashboard1, caption: "Dashboard Overview" },
@@ -95,6 +106,7 @@ export const projects = [
       database: ["MySQL"],
       apis: ["Google Maps API", "WebSocket"]
     },
+    heroVideo: courierVideo,
     screenshots: [
       { src: trackingSystem, caption: "Tracking System" },
       { src: gpsSystem, caption: "GPS System" },
@@ -173,11 +185,13 @@ export const projects = [
       database: ["MongoDB"],
       apis: ["Claude API", "WebSocket", "Crypto Price APIs"]
     },
+    heroVideo: tradingVideo,
     screenshots: [
-      "Screenshot of trading terminal",
-      "Screenshot of portfolio",
-      "Screenshot of AI analytics",
-      "Screenshot of backtesting"
+      { src: tradingLogin, caption: "Login Page" },
+      { src: tradingDashboard, caption: "Trading Dashboard" },
+      { src: tradingTrade, caption: "Trade Execution" },
+      { src: tradingFinance, caption: "Finance Overview" },
+      { src: tradingCoin, caption: "Coin Analysis" },
     ],
     color: "#10B981" // Green
   }

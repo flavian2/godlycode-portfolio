@@ -6,6 +6,7 @@ import ScrollReveal from '../components/ScrollReveal';
 import ProjectMockup from '../components/ProjectMockup';
 import { getProjectById } from '../data/projects';
 
+
 const ProjectDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -101,10 +102,24 @@ const ProjectDetail = () => {
           </div>
         </ScrollReveal>
 
-        {/* Project Mockup/Visual */}
+        {/* Project Hero — video if available, else CSS mockup */}
         <ScrollReveal delay={0.2}>
-          <div className="mb-16 glass p-8 rounded-2xl">
-            <ProjectMockup projectId={project.id} color={project.color} />
+          <div className="mb-16 glass p-4 rounded-2xl overflow-hidden">
+            {project.heroVideo ? (
+              <video
+                src={project.heroVideo}
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full rounded-xl object-cover"
+                style={{ maxHeight: '520px' }}
+              />
+            ) : (
+              <div className="p-4">
+                <ProjectMockup projectId={project.id} color={project.color} />
+              </div>
+            )}
           </div>
         </ScrollReveal>
 
